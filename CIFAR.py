@@ -12,22 +12,14 @@ from tensorflow.keras.regularizers import l2
 from tensorflow.keras.utils import normalize, to_categorical
 
 
-def get_preprocessed_data():
-    (x_train, y_train), (x_test, y_test) = cifar100.load_data()
-    x_train = normalize(x_train)
-    x_test = normalize(x_test)
-    y_train = to_categorical(y_train)
-    y_test = to_categorical(y_test)
-    return (x_train, y_train), (x_test, y_test)
-
 
 def get_datagen(x_train):
     datagen = ImageDataGenerator(
         featurewise_center=False,  # set input mean to 0 over the dataset
-        samplewise_center=False,  # set each sample mean to 0
+        samplewise_center=True,  # set each sample mean to 0
         featurewise_std_normalization=False,  # divide inputs by std of the dataset
-        samplewise_std_normalization=False,  # divide each input by its std
-        zca_whitening=False,  # apply ZCA whitening
+        samplewise_std_normalization=True,  # divide each input by its std
+        zca_whitening=True,  # apply ZCA whitening
         zca_epsilon=1e-06,  # epsilon for ZCA whitening
         rotation_range=0.0,  # randomly rotate images in the range (degrees, 0 to 180)
         width_shift_range=0.0,  # randomly shift images horizontally (fraction of total width)
@@ -204,7 +196,9 @@ def get_7_block_model(activation):
 
 if __name__ == '__main__':
     # get data
-    (x_train, y_train), (x_test, y_test) = get_preprocessed_data()
+    (x_train, y_train), (x_test, y_test) = cifar100.load_data()
+    y_train = to_categorical(y_train)
+    y_test = to_categorical(y_test)
     # get datagen
     datagen = get_datagen(x_train)
     # get model
@@ -212,7 +206,7 @@ if __name__ == '__main__':
     # get lr schedule
     schedule = get_lr_schedule()
     # get tensorboard
-    tensorboard = get_tensorboard()
+    tensorboard = get_tensorboard('cifar100-7blocks-elu-softmax-preprocessing-{}'.format(datetime.datetime.now()))
     # compile model
     model.compile(SGD(lr=0.01, momentum=0.9),
                   loss='categorical_crossentropy',
