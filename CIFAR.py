@@ -214,7 +214,7 @@ if __name__ == '__main__':
                   metrics=['accuracy', top_k_categorical_accuracy])
     # fit model
     hist = model.fit_generator(datagen.flow(x_train, y_train, batch_size=100),
-                               validation_data=[x_test, y_test],
+                               validation_data=datagen.flow(x_test, y_test),
                                epochs=330,
                                callbacks=[tensorboard, schedule]
                                )
