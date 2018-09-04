@@ -196,8 +196,10 @@ def get_7_block_model(activation):
 if __name__ == '__main__':
     # get data
     (x_train, y_train), (x_test, y_test) = cifar100.load_data()
-    x_train /= 255.0
-    x_test /= 255.0
+    x_train = x_train.astype('float32')
+    x_test = x_test.astype('float32')
+    x_train /= 255
+    x_test /= 255
     y_train = to_categorical(y_train)
     y_test = to_categorical(y_test)
     # get datagen
