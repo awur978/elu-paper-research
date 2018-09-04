@@ -3,7 +3,7 @@ import datetime
 import tensorflow as tf
 from tensorflow.keras import Sequential
 from tensorflow.keras.callbacks import TensorBoard, LearningRateScheduler
-from tensorflow.keras.datasets import cifar10
+from tensorflow.keras.datasets import cifar10, cifar100
 from tensorflow.keras.layers import ZeroPadding2D, Conv2D, MaxPooling2D, Dropout, Activation, Flatten
 from tensorflow.keras.metrics import top_k_categorical_accuracy
 from tensorflow.keras.optimizers import SGD
@@ -13,7 +13,7 @@ from tensorflow.keras.utils import normalize, to_categorical
 
 
 def get_preprocessed_data():
-    (x_train, y_train), (x_test, y_test) = cifar10.load_data()
+    (x_train, y_train), (x_test, y_test) = cifar100.load_data()
     x_train = normalize(x_train)
     x_test = normalize(x_test)
     y_train = to_categorical(y_train)
@@ -63,7 +63,7 @@ def get_lr_schedule():
     return LearningRateScheduler(lr_schedule)
 
 
-def get_tensorboard(name='cifar10-7blocks-my_activation-{}'.format(datetime.datetime.now())):
+def get_tensorboard(name='cifar100-7blocks-elu-softmax-{}'.format(datetime.datetime.now())):
     tensorboard = TensorBoard(log_dir='./logs/{}'.format(name),
                               # histogram_freq=2,
                               # write_graph=True,
@@ -145,7 +145,7 @@ def get_8_block_model(activation):
         Activation(activation),
         Dropout(0.5),
         # Block 8
-        Conv2D(10, 1, kernel_regularizer=l2(l=0.0005)),  # 1
+        Conv2D(100, 1, kernel_regularizer=l2(l=0.0005)),  # 1
         Activation('sigmoid'),
         Flatten(),
     ])
@@ -195,8 +195,8 @@ def get_7_block_model(activation):
         Activation(activation),
         Dropout(0.5),
         # Block 7
-        Conv2D(10, 1, kernel_regularizer=l2(l=0.0005)),  # 1
-        Activation('sigmoid'),
+        Conv2D(100, 1, kernel_regularizer=l2(l=0.0005)),  # 1
+        Activation('softmax'),
         Flatten()
     ])
     return model
