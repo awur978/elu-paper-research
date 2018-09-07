@@ -42,11 +42,11 @@ def get_datagen(x_train):
 
 def get_lr_schedule():
     def lr_schedule(epoch, lr):
-        if epoch < 35000:
+        if epoch < 70:
             return 0.01
-        elif epoch < 85000:
+        elif epoch < 170:
             return 0.005
-        elif epoch < 135000:
+        elif epoch < 270:
             return 0.0005
         else:
             return 0.00005
@@ -215,9 +215,8 @@ if __name__ == '__main__':
                   loss='categorical_crossentropy',
                   metrics=['accuracy', top_k_categorical_accuracy])
     # fit model
-    hist = model.fit_generator(datagen.flow(x_train, y_train, batch_size=100),
-                               steps_per_epoch=100,
-                               validation_data=datagen.flow(x_test, y_test),
-                               epochs=165000,
+    hist = model.fit_generator(datagen.flow(x_train, y_train, batch_size=50),
+                               validation_data=datagen.flow(x_test, y_test, batch_size=100),
+                               epochs=330,
                                callbacks=[tensorboard, schedule]
                                )
