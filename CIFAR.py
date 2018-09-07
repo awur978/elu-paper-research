@@ -137,7 +137,7 @@ def get_8_block_model(activation):
         Dropout(0.5),
         # Block 8
         Conv2D(100, 1, kernel_regularizer=l2(l=0.0005)),  # 1
-        Activation('sigmoid'),
+        Activation('softmax'),
         Flatten(),
     ])
     return model
@@ -205,11 +205,11 @@ if __name__ == '__main__':
     # get datagen
     datagen = get_datagen(x_train)
     # get model
-    model = get_7_block_model('elu')
+    model = get_8_block_model('elu')
     # get lr schedule
     schedule = get_lr_schedule()
     # get tensorboard
-    tensorboard = get_tensorboard('cifar100-7blocks-elu-softmax-preprocessing-{}'.format(datetime.datetime.now()))
+    tensorboard = get_tensorboard('cifar100-8blocks-elu-softmax-preprocessing-{}'.format(datetime.datetime.now()))
     # compile model
     model.compile(SGD(lr=0.01, momentum=0.9),
                   loss='categorical_crossentropy',
