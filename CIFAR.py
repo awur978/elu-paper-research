@@ -42,11 +42,11 @@ def get_datagen(x_train):
 
 def get_lr_schedule():
     def lr_schedule(epoch, lr):
-        if epoch < 70:
+        if epoch < 35000:
             return 0.01
-        elif epoch < 170:
+        elif epoch < 85000:
             return 0.005
-        elif epoch < 270:
+        elif epoch < 135000:
             return 0.0005
         else:
             return 0.00005
