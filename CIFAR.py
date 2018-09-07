@@ -209,7 +209,7 @@ if __name__ == '__main__':
     # get lr schedule
     schedule = get_lr_schedule()
     # get tensorboard
-    tensorboard = get_tensorboard('cifar100-8blocks-elu-softmax-preprocessing-{}'.format(datetime.datetime.now()))
+    tensorboard = get_tensorboard('cifar100/{}-8blocks-elu-softmax-preprocessing'.format(datetime.datetime.now()))
     # compile model
     model.compile(SGD(lr=0.01, momentum=0.9),
                   loss='categorical_crossentropy',
