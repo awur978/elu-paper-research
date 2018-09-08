@@ -4,7 +4,7 @@ import tensorflow as tf
 from tensorflow.keras import Sequential
 from tensorflow.keras.callbacks import TensorBoard, LearningRateScheduler
 from tensorflow.keras.datasets import cifar10, cifar100
-from tensorflow.keras.layers import ZeroPadding2D, Conv2D, MaxPooling2D, Dropout, Activation, Flatten
+from tensorflow.keras.layers import ZeroPadding2D, Cropping2D, Conv2D, MaxPooling2D, Dropout, Activation, Flatten
 from tensorflow.keras.metrics import top_k_categorical_accuracy
 from tensorflow.keras.optimizers import SGD
 from tensorflow.keras.preprocessing.image import ImageDataGenerator
@@ -177,7 +177,7 @@ def get_7_block_model(activation):
         # Block 5
         Conv2D(280, 1, kernel_regularizer=l2(l=0.0005)),  # 3
         Activation(activation),
-        Conv2D(300, 2),  # 2
+        Conv2D(300, 2, kernel_regularizer=l2(l=0.0005)),  # 2
         Activation(activation),
         MaxPooling2D(),  # 1
         Dropout(0.4),
@@ -186,6 +186,78 @@ def get_7_block_model(activation):
         Activation(activation),
         Dropout(0.5),
         # Block 7
+        Conv2D(100, 1, kernel_regularizer=l2(l=0.0005)),  # 1
+        Activation('softmax'),
+        Flatten()
+    ])
+    return model
+
+
+def get_7_block_model_rev_2(activation):
+    model = Sequential([
+        # Block 1
+        ZeroPadding2D(input_shape=(32, 32, 3)),  # 33
+        Conv2D(384, 3, kernel_regularizer=l2(l=0.0005)),  # 31
+        Activation(activation),
+        MaxPooling2D(),  #
+        # Block 2
+        Conv2D(384, 1, kernel_regularizer=l2(l=0.0005)),  #
+        Activation(activation),
+        ZeroPadding2D(),
+        Conv2D(384, 2, kernel_regularizer=l2(l=0.0005)),  #
+        Activation(activation),
+        ZeroPadding2D(),  # 0
+        Conv2D(640, 2, kernel_regularizer=l2(l=0.0005)),  # 2
+        Activation(activation),
+        MaxPooling2D(),  # 1
+        Dropout(0.1),
+        # Block 3
+        Conv2D(640, 1, kernel_regularizer=l2(l=0.0005)),  # 1
+        Activation(activation),
+        ZeroPadding2D(),  # 3
+        Conv2D(768, 2, kernel_regularizer=l2(l=0.0005)),  # 2
+        Activation(activation),
+        ZeroPadding2D(),  # 4
+        Conv2D(768, 2, kernel_regularizer=l2(l=0.0005)),  # 3
+        Activation(activation),
+        ZeroPadding2D(),  # 5
+        Conv2D(768, 2, kernel_regularizer=l2(l=0.0005)),  # 4
+        Activation(activation),
+        MaxPooling2D(),  # 2
+        Dropout(0.2),
+        # Block 4
+        Conv2D(768, 1, kernel_regularizer=l2(l=0.0005)),  # 2
+        Activation(activation),
+        ZeroPadding2D(),  # 4
+        Conv2D(896, 2, kernel_regularizer=l2(l=0.0005)),  # 3
+        Activation(activation),
+        ZeroPadding2D(),  # 5
+        Conv2D(896, 2, kernel_regularizer=l2(l=0.0005)),  # 4
+        Activation(activation),
+        MaxPooling2D(),  # 2
+        Dropout(0.3),
+        # Block 5
+        Conv2D(896, 1, kernel_regularizer=l2(l=0.0005)),  # 2
+        Activation(activation),
+        ZeroPadding2D(),  # 4
+        Conv2D(1024, 2, kernel_regularizer=l2(l=0.0005)),  # 5
+        Activation(activation),
+        ZeroPadding2D(),  # 7
+        Conv2D(1024, 2, kernel_regularizer=l2(l=0.0005)),  # 6
+        Activation(activation),
+        MaxPooling2D(),  # 3
+        Dropout(0.4),
+        # Block 6
+        Conv2D(1024, 1, kernel_regularizer=l2(l=0.0005)),  # 3
+        Activation(activation),
+        Conv2D(1152, 2, kernel_regularizer=l2(l=0.0005)),  # 2
+        Activation(activation),
+        MaxPooling2D(),  # 1
+        Dropout(0.5),
+        # Block 7
+        Conv2D(1152, 1, kernel_regularizer=l2(l=0.0005)),  # 1
+        Activation(activation),
+        Dropout(0.5),
         Conv2D(100, 1, kernel_regularizer=l2(l=0.0005)),  # 1
         Activation('softmax'),
         Flatten()
