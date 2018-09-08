@@ -297,7 +297,7 @@ if __name__ == '__main__':
     x_train /= 255
     x_test /= 255
     x_train = np.pad(x_train, ((0, 0), (4, 4), (4, 4), (0, 0)), 'constant')
-    x_test = np.pad(x_test, ((0, 0), (1, 1), (1, 1), (0, 0)), 'constant')
+    x_test = np.pad(x_test, ((0, 0), (4, 4), (4, 4), (0, 0)), 'constant')
     y_train = to_categorical(y_train)
     y_test = to_categorical(y_test)
     # get datagen
