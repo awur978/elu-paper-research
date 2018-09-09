@@ -66,11 +66,11 @@ def get_datagen(x_train):
 
 def get_lr_schedule():
     def lr_schedule(epoch, lr):
-        if epoch < 70:
+        if epoch < 35:
             return 0.01
-        elif epoch < 170:
+        elif epoch < 85:
             return 0.005
-        elif epoch < 270:
+        elif epoch < 135:
             return 0.0005
         else:
             return 0.00005
@@ -317,6 +317,6 @@ if __name__ == '__main__':
                                validation_data=crop_generator(datagen.flow(x_test, y_test, batch_size=100), 32),
                                steps_per_epoch=1000,
                                validation_steps=100,
-                               epochs=330,
+                               epochs=165,
                                callbacks=[tensorboard, schedule]
                                )
