@@ -56,7 +56,7 @@ def get_datagen(x_train):
         cval=0.0,  # value used for fill_mode = "constant"
         horizontal_flip=True,  # randomly flip images
         vertical_flip=False,  # randomly flip images
-        rescale=None,  # set rescaling factor (applied before any other transformation)
+        rescale=1./255,  # set rescaling factor (applied before any other transformation)
         preprocessing_function=None,  # set function that will be applied on each input
         data_format=None,  # image data format, either "channels_first" or "channels_last"
         validation_split=0.0  # fraction of images reserved for validation (strictly between 0 and 1)
@@ -223,8 +223,6 @@ if __name__ == '__main__':
     (x_train, y_train), (x_test, y_test) = cifar100.load_data()
     x_train = x_train.astype('float32')
     x_test = x_test.astype('float32')
-    x_train /= 255
-    x_test /= 255
     x_train = np.pad(x_train, ((0, 0), (4, 4), (4, 4), (0, 0)), 'constant')
     x_test = np.pad(x_test, ((0, 0), (4, 4), (4, 4), (0, 0)), 'constant')
     y_train = to_categorical(y_train)
