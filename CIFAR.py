@@ -5,7 +5,6 @@ import tensorflow as tf
 from tensorflow.keras import Sequential
 from tensorflow.keras.callbacks import TensorBoard, LearningRateScheduler
 from tensorflow.keras.datasets import cifar10, cifar100
-from tensorflow.keras.initializers import RandomNormal
 from tensorflow.keras.layers import ZeroPadding2D, Conv2D, MaxPooling2D, Dropout, Activation, Flatten
 from tensorflow.keras.metrics import top_k_categorical_accuracy
 from tensorflow.keras.optimizers import SGD
