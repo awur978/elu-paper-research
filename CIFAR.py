@@ -79,16 +79,7 @@ def get_lr_schedule():
 
 
 def get_tensorboard(name='cifar100-7blocks-elu-softmax-{}'.format(datetime.datetime.now())):
-    tensorboard = TensorBoard(log_dir='./logs/{}'.format(name),
-<<<<<<< HEAD
-                              #histogram_freq=5,
-=======
-                              histogram_freq=15,
->>>>>>> 19636f7376f59743a760f93634aee9dc3a3999dc
-                              write_graph=True,
-                              #write_grads=True,
-                              # write_images=True,
-                              )
+    tensorboard = TensorBoard(log_dir='./logs/{}'.format(name))
     return tensorboard
 
 
