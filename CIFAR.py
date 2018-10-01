@@ -84,9 +84,7 @@ def get_tensorboard(name='cifar100-7blocks-elu-softmax-{}'.format(datetime.datet
 
 
 def my_activation(x):
-    return tf.where(x > 0.0,
-                    tf.log(tf.maximum(x, 0.0) + 1.0),
-                    -tf.log(-tf.minimum(x, 0.0) + 1.0))
+    return tf.sign(x) * tf.log(tf.abs(x) + 1.0)
 
 
 def get_7_block_model(activation):
